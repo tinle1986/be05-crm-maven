@@ -21,7 +21,13 @@ public class HomeServlet extends HttpServlet {
 		HttpSession userSession = req.getSession();
 
 		if (userSession.getAttribute("LOGIN_USER") == null) {
-			resp.sendRedirect(req.getContextPath() + "/login");
+			if (servletPath == UrlConstant.LOGIN_URL) {
+				resp.sendRedirect(req.getContextPath() + "/login");
+			} else {
+				System.out.println("Call 404.jsp when wrong serverPath");
+//				req.getRequestDispatcher("/WEB-INF/views/error/404.jsp").forward(req, resp);
+				resp.sendRedirect(req.getContextPath() + "/error");
+			}
 		} else {
 			switch (servletPath) {
 				case UrlConstant.HOME_URL:

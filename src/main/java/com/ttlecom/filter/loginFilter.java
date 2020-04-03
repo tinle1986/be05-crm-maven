@@ -19,13 +19,23 @@ public class loginFilter extends HttpFilter {
 		System.out.println("Before Filter");
 		HttpSession userSession = request.getSession();
 
-
-		if (userSession.getAttribute("LOGIN_USER") == null && !request.getServletPath().startsWith("/login")) {
-			response.sendRedirect(request.getContextPath() + "/login");
+		if (userSession.getAttribute("LOGIN_USER") == null) {
+			if (request.getServletPath().startsWith("/login")) {
+				response.sendRedirect(request.getContextPath() + "/login");
+			} else {
+				response.sendRedirect(request.getContextPath() + "/error");
+			}
 		} else {
 			chain.doFilter(request, response);
 			response.setCharacterEncoding("UTF-8");
 		}
+
+//		if (userSession.getAttribute("LOGIN_USER") == null && !request.getServletPath().startsWith("/login")) {
+//			response.sendRedirect(request.getContextPath() + "/error");
+//		} else {
+//			chain.doFilter(request, response);
+//			response.setCharacterEncoding("UTF-8");
+//		}
 
 //		if (userSession.getAttribute("LOGIN_USER") == null) {
 //			if (!request.getServletPath().startsWith("/login")) {
